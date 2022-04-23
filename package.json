@@ -1,0 +1,64 @@
+{
+  "name": "taskwarrior-edit",
+  "version": "0.1.0",
+  "publisher": "claui",
+  "engines": {
+    "vscode": "^1.66.0"
+  },
+  "license": "See License in README.md",
+  "displayName": "Edit Taskwarrior tasks",
+  "description": "Support Taskwarrior’s `task edit` command",
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "task",
+    "task-edit",
+    "taskwarrior",
+    "syntax"
+  ],
+  "preview": true,
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "taskwarrior",
+        "aliases": [
+          "Taskwarrior Task",
+          "task"
+        ],
+        "filenamePatterns": [
+          "task.*.task"
+        ],
+        "firstLine": "^# The 'task <id> edit' command allows you to modify all aspects of a task",
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "taskwarrior",
+        "scopeName": "source.taskwarrior.edit",
+        "path": "./syntaxes/taskwarrior.edit.tmLanguage.json"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onLanguage:taskwarrior"
+  ],
+  "extensionKind": [
+    "workspace"
+  ],
+  "repository": "github:claui/vscode-taskwarrior",
+  "devDependencies": {
+    "@types/node": "^17.0.25",
+    "@types/vscode": "^1.66.0",
+    "eslint": "^8.14.0",
+    "typescript": "^4.6.3"
+  },
+  "packageManager": "yarn@3.2.0",
+  "scripts": {
+    "compile": "tsc -p ./",
+    "vscode:prepublish": "yarn compile"
+  }
+}
