@@ -19,7 +19,7 @@
     "syntax"
   ],
   "preview": true,
-  "main": "./out/extension.js",
+  "main": "out/extension.js",
   "contributes": {
     "languages": [
       {
@@ -32,14 +32,14 @@
           "task.*.task"
         ],
         "firstLine": "^# The 'task <id> edit' command allows you to modify all aspects of a task",
-        "configuration": "./language-configuration.json"
+        "configuration": "share/language-configuration.json"
       }
     ],
     "grammars": [
       {
         "language": "taskwarrior",
         "scopeName": "source.taskwarrior.edit",
-        "path": "./syntaxes/taskwarrior.edit.tmLanguage.json"
+        "path": "share/taskwarrior.edit.tmLanguage.json"
       }
     ]
   },
