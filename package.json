@@ -21,6 +21,18 @@
   "preview": true,
   "main": "out/extension.js",
   "contributes": {
+    "configurationDefaults": {
+      "[taskwarrior]": {
+        "editor.autoIndent": "none",
+        "editor.detectIndentation": false,
+        "editor.wrappingIndent": "deepIndent",
+        "editor.rulers": [
+          74
+        ],
+        "editor.tabSize": 2,
+        "files.trimTrailingWhitespace": false
+      }
+    },
     "languages": [
       {
         "id": "taskwarrior",
