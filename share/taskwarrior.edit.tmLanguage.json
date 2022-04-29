@@ -168,6 +168,9 @@
               "include": "#idEntry"
             },
             {
+              "include": "#parentEntry"
+            },
+            {
               "include": "#statusEntry"
             },
             {
@@ -277,6 +280,30 @@
       "match": "(^[^:#]+(?=#))|(^[^:#]+$)",
       "name": "invalid.illegal.missing.separator.task"
     },
+    "parentEntry": {
+      "match": "(Parent:)\\s*(.*)",
+      "captures": {
+        "1": {
+          "name": "meta.section.key.parent.uuid",
+          "patterns": [
+            {
+              "include": "#attributeKeySection"
+            }
+          ]
+        },
+        "2": {
+          "patterns": [
+            {
+              "include": "#uuid"
+            },
+            {
+              "match": ".*",
+              "name": "invalid.illegal.uuid"
+            }
+          ]
+        }
+      }
+    },
     "statusEntry": {
       "match": "(Status:)\\s*(.*)",
       "captures": {
@@ -347,6 +374,10 @@
         }
       ]
     },
+    "uuid": {
+      "match": "\\h{8}-(?:\\h{4}-){3}\\h{12}",
+      "name": "string.unquoted.uuid"
+    },
     "uuidEntry": {
       "match": "(UUID:)\\s*(.*)",
       "captures": {
@@ -361,8 +392,7 @@
         "2": {
           "patterns": [
             {
-              "match": "\\h{8}-(?:\\h{4}-){3}\\h{12}",
-              "name": "string.unquoted.uuid"
+              "include": "#uuid"
             },
             {
               "match": ".*",
