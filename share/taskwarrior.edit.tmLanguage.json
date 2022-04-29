@@ -181,6 +181,10 @@
             },
             {
               "include": "#genericEntry"
+            },
+            {
+              "match": ".*",
+              "name": "invalid.illegal.entry.task"
             }
           ]
         }
