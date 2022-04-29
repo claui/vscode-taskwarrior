@@ -11,6 +11,12 @@
     "edit": {
       "patterns": [
         {
+          "include": "#attribute"
+        },
+        {
+          "include": "#heading"
+        },
+        {
           "include": "#comment"
         },
         {
@@ -21,6 +27,17 @@
         }
       ]
     },
+    "attribute": {
+      "match": "^\\s{2}([\\S^:#][^:#]+)\\s*(:)",
+      "captures": {
+        "1": {
+          "name": "entity.other.attribute-name.task"
+        },
+        "2": {
+          "name": "punctuation.separator.attribute-name.task"
+        }
+      }
+    },
     "comment": {
       "match": "^((#)\\p{Print}*)$",
       "captures": {
@@ -29,6 +46,29 @@
         },
         "2": {
           "name": "punctuation.definition.comment.task"
+        }
+      }
+    },
+    "heading": {
+      "match": "^((#)\\s+((-+)|Name)\\s+((-+)|Editable details))$",
+      "captures": {
+        "1": {
+          "name": "comment.line.with.heading.task"
+        },
+        "2": {
+          "name": "punctuation.definition.comment.task"
+        },
+        "3": {
+          "name": "markup.heading.name"
+        },
+        "4": {
+          "name": "punctuation.separator.heading.name"
+        },
+        "5": {
+          "name": "markup.heading.details"
+        },
+        "6": {
+          "name": "punctuation.separator.heading.details"
         }
       }
     },
