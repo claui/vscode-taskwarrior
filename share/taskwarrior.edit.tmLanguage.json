@@ -115,7 +115,13 @@
               "include": "#annotationEntry"
             },
             {
+              "include": "#idEntry"
+            },
+            {
               "include": "#tagsEntry"
+            },
+            {
+              "include": "#uuidEntry"
             },
             {
               "include": "#genericEntry"
@@ -165,6 +171,31 @@
         },
         "6": {
           "name": "punctuation.separator.heading.details"
+        }
+      }
+    },
+    "idEntry": {
+      "match": "(ID:)\\s*(.*)",
+      "captures": {
+        "1": {
+          "name": "meta.section.key.id",
+          "patterns": [
+            {
+              "include": "#attributeKeySection"
+            }
+          ]
+        },
+        "2": {
+          "patterns": [
+            {
+              "match": ".*\\D.*",
+              "name": "invalid.illegal.integer.decimal"
+            },
+            {
+              "match": ".*",
+              "name": "constant.numeric.integer.decimal.id"
+            }
+          ]
         }
       }
     },
@@ -220,6 +251,31 @@
           "name": "invalid.illegal.timestamp"
         }
       ]
+    },
+    "uuidEntry": {
+      "match": "(UUID:)\\s*(.*)",
+      "captures": {
+        "1": {
+          "name": "meta.section.key.uuid",
+          "patterns": [
+            {
+              "include": "#attributeKeySection"
+            }
+          ]
+        },
+        "2": {
+          "patterns": [
+            {
+              "match": "\\h{8}-(?:\\h{4}-){3}\\h{12}",
+              "name": "string.unquoted.uuid"
+            },
+            {
+              "match": ".*",
+              "name": "invalid.illegal.uuid"
+            }
+          ]
+        }
+      }
     }
   }
 }
