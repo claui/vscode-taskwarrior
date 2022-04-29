@@ -105,6 +105,53 @@
         }
       }
     },
+    "dependencies": {
+      "match": "([^,]+)(?:(?!.)|(,)(?=[^,])|(.*))",
+      "captures": {
+        "1": {
+          "name": "meta.section.dependencies.part",
+          "patterns": [
+            {
+              "include": "#uuidRef"
+            },
+            {
+              "include": "#idRange"
+            },
+            {
+              "match": ".*",
+              "name": "invalid.illegal.dependencies.part"
+            }
+          ]
+        },
+        "2": {
+          "name": "punctuation.separator.dependencies"
+        },
+        "3": {
+          "name": "invalid.illegal.dependencies.punctuation"
+        }
+      }
+    },
+    "dependenciesEntry": {
+      "match": "(Dependencies:)\\s*(.*)",
+      "captures": {
+        "1": {
+          "name": "meta.section.key.dependencies",
+          "patterns": [
+            {
+              "include": "#attributeKeySection"
+            }
+          ]
+        },
+        "2": {
+          "name": "meta.section.dependencies",
+          "patterns": [
+            {
+              "include": "#dependencies"
+            }
+          ]
+        }
+      }
+    },
     "entryLine": {
       "match": "^\\s{2}([\\S^:#][^:#]+[^#]*)$",
       "captures": {
@@ -113,6 +160,9 @@
           "patterns": [
             {
               "include": "#annotationEntry"
+            },
+            {
+              "include": "#dependenciesEntry"
             },
             {
               "include": "#idEntry"
@@ -199,6 +249,23 @@
               "name": "constant.numeric.integer.decimal.id"
             }
           ]
+        }
+      }
+    },
+    "idRange": {
+      "match": "(?<!\\d)(\\d{1,7})(?!\\d)(?:(-)(?:(.{8,})|(?=.))|(.*))",
+      "captures": {
+        "1": {
+          "name": "constant.numeric.integer.decimal.id"
+        },
+        "2": {
+          "name": "keyword.operator.range"
+        },
+        "3": {
+          "name": "invalid.illegal.integer.decimal"
+        },
+        "4": {
+          "name": "invalid.illegal.dependencies.part"
         }
       }
     },
@@ -304,6 +371,10 @@
           ]
         }
       }
+    },
+    "uuidRef": {
+      "match": "\\h{8}(?:[\\h-]{4,28})?",
+      "name": "string.unquoted.uuid.ref"
     }
   }
 }
