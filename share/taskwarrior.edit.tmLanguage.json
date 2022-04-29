@@ -27,6 +27,20 @@
         }
       ]
     },
+    "attributeKeySection": {
+      "match": "(?:(UDA)\\s)?([\\S^:#][^:#]+)\\s*(:)",
+      "captures": {
+        "1": {
+          "name": "keyword.other.uda"
+        },
+        "2": {
+          "name": "entity.other.attribute-name.task"
+        },
+        "3": {
+          "name": "punctuation.separator.attribute-name.task"
+        }
+      }
+    },
     "comment": {
       "match": "^((#)\\p{Print}*)$",
       "captures": {
@@ -39,19 +53,23 @@
       }
     },
     "entry": {
-      "match": "(?:(UDA)\\s)?([\\S^:#][^:#]+)\\s*(:)\\s*(.*)",
+      "match": "([\\S^:#][^:#]+\\s*:)\\s*(.*)",
       "captures": {
         "1": {
-          "name": "keyword.other"
+          "name": "meta.section.key",
+          "patterns": [
+            {
+              "include": "#attributeKeySection"
+            }
+          ]
         },
         "2": {
-          "name": "entity.other.attribute-name.task"
-        },
-        "3": {
-          "name": "punctuation.separator.attribute-name.task"
-        },
-        "4": {
-          "name": "meta.string"
+          "name": "meta.string.value",
+          "patterns": [
+            {
+              "include": "#stringValue"
+            }
+          ]
         }
       }
     },
@@ -98,6 +116,10 @@
     "missingSeparator": {
       "match": "(^[^:#]+(?=#))|(^[^:#]+$)",
       "name": "invalid.illegal.missing.separator.task"
+    },
+    "stringValue": {
+      "match": ".*",
+      "name": "string.value"
     }
   }
 }
