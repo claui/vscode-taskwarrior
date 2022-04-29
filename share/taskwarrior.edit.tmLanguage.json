@@ -165,19 +165,13 @@
               "include": "#dependenciesEntry"
             },
             {
-              "include": "#idEntry"
-            },
-            {
               "include": "#parentEntry"
-            },
-            {
-              "include": "#statusEntry"
             },
             {
               "include": "#tagsEntry"
             },
             {
-              "include": "#uuidEntry"
+              "include": "#unchangeableEntry"
             },
             {
               "include": "#genericEntry"
@@ -234,31 +228,6 @@
         }
       }
     },
-    "idEntry": {
-      "match": "(ID:)\\s*(.*)",
-      "captures": {
-        "1": {
-          "name": "meta.section.key.id",
-          "patterns": [
-            {
-              "include": "#attributeKeySection"
-            }
-          ]
-        },
-        "2": {
-          "patterns": [
-            {
-              "match": ".*\\D.*",
-              "name": "invalid.illegal.integer.decimal"
-            },
-            {
-              "match": ".*",
-              "name": "constant.numeric.integer.decimal.id"
-            }
-          ]
-        }
-      }
-    },
     "idRange": {
       "match": "(?<!\\d)(\\d{1,7})(?!\\d)(?:(-)(?:(.{8,})|(?=.))|(.*))",
       "captures": {
@@ -303,31 +272,6 @@
             {
               "match": ".*",
               "name": "invalid.illegal.uuid"
-            }
-          ]
-        }
-      }
-    },
-    "statusEntry": {
-      "match": "(Status:)\\s*(.*)",
-      "captures": {
-        "1": {
-          "name": "meta.section.key.status",
-          "patterns": [
-            {
-              "include": "#attributeKeySection"
-            }
-          ]
-        },
-        "2": {
-          "patterns": [
-            {
-              "match": "Pending|Recurring|Waiting|Completed|Deleted",
-              "name": "variable.other.enummember.status"
-            },
-            {
-              "match": ".*",
-              "name": "invalid.illegal.status"
             }
           ]
         }
@@ -378,33 +322,13 @@
         }
       ]
     },
+    "unchangeableEntry": {
+      "match": "(?:ID|UUID|Status|Mask|iMask|Modified):.*",
+      "name": "invalid.illegal.attribute.unchangeable"
+    },
     "uuid": {
       "match": "\\h{8}-(?:\\h{4}-){3}\\h{12}",
       "name": "string.unquoted.uuid"
-    },
-    "uuidEntry": {
-      "match": "(UUID:)\\s*(.*)",
-      "captures": {
-        "1": {
-          "name": "meta.section.key.uuid",
-          "patterns": [
-            {
-              "include": "#attributeKeySection"
-            }
-          ]
-        },
-        "2": {
-          "patterns": [
-            {
-              "include": "#uuid"
-            },
-            {
-              "match": ".*",
-              "name": "invalid.illegal.uuid"
-            }
-          ]
-        }
-      }
     },
     "uuidRef": {
       "match": "\\h{8}(?:[\\h-]{4,28})?",

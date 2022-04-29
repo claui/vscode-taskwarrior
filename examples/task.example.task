@@ -15,9 +15,9 @@
 #
 # Name               Editable details
 # -----------------  ----------------------------------------------------
-  ID:                255
-  UUID:              12150293-859e-4b48-9944-bf06db5acd42
-  Status:            Pending
+# ID:                255
+# UUID:              12150293-859e-4b48-9944-bf06db5acd42
+# Status:            Pending
 # Mask:              
 # iMask:             
   Project:           dev.vscode.taskwarrior
