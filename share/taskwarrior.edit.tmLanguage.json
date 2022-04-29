@@ -27,6 +27,59 @@
         }
       ]
     },
+    "annotation": {
+      "patterns": [
+        {
+          "match": "(.*)(\\s--\\s)\\s*(.*)",
+          "captures": {
+            "1": {
+              "name": "meta.section.timestamp",
+              "patterns": [
+                {
+                  "include": "#timestamp"
+                }
+              ]
+            },
+            "2": {
+              "name": "punctuation.separator.annotation.date"
+            },
+            "3": {
+              "name": "meta.string.annotation.value",
+              "patterns": [
+                {
+                  "include": "#stringValue"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "match": ".*",
+          "name": "invalid.illegal.annotation"
+        }
+      ]
+    },
+    "annotationEntry": {
+      "match": "(Annotation:)\\s*(.*)",
+      "captures": {
+        "1": {
+          "name": "meta.section.key.annotation",
+          "patterns": [
+            {
+              "include": "#attributeKeySection"
+            }
+          ]
+        },
+        "2": {
+          "name": "meta.section.annotation",
+          "patterns": [
+            {
+              "include": "#annotation"
+            }
+          ]
+        }
+      }
+    },
     "attributeKeySection": {
       "match": "(?:(UDA)\\s)?([\\S^:#][^:#]+)\\s*(:)",
       "captures": {
@@ -52,7 +105,26 @@
         }
       }
     },
-    "entry": {
+    "entryLine": {
+      "match": "^\\s{2}([\\S^:#][^:#]+[^#]*)$",
+      "captures": {
+        "1": {
+          "name": "meta.block.entry.task",
+          "patterns": [
+            {
+              "include": "#annotationEntry"
+            },
+            {
+              "include": "#tagsEntry"
+            },
+            {
+              "include": "#genericEntry"
+            }
+          ]
+        }
+      }
+    },
+    "genericEntry": {
       "match": "([\\S^:#][^:#]+\\s*:)\\s*(.*)",
       "captures": {
         "1": {
@@ -68,19 +140,6 @@
           "patterns": [
             {
               "include": "#stringValue"
-            }
-          ]
-        }
-      }
-    },
-    "entryLine": {
-      "match": "^\\s{2}([\\S^:#][^:#]+[^#]*)$",
-      "captures": {
-        "1": {
-          "name": "meta.block.entry.task",
-          "patterns": [
-            {
-              "include": "#entry"
             }
           ]
         }
@@ -119,7 +178,48 @@
     },
     "stringValue": {
       "match": ".*",
-      "name": "string.value"
+      "name": "string.unquoted.value"
+    },
+    "tags": {
+      "match": "(\\S+)\\s*",
+      "captures": {
+        "1": {
+          "name": "entity.name.tag"
+        }
+      }
+    },
+    "tagsEntry": {
+      "match": "(Tags:)\\s*(.*)",
+      "captures": {
+        "1": {
+          "name": "meta.section.key.tags",
+          "patterns": [
+            {
+              "include": "#attributeKeySection"
+            }
+          ]
+        },
+        "2": {
+          "name": "meta.section.tags",
+          "patterns": [
+            {
+              "include": "#tags"
+            }
+          ]
+        }
+      }
+    },
+    "timestamp": {
+      "patterns": [
+        {
+          "match": "\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}",
+          "name": "meta.embedded.timestamp"
+        },
+        {
+          "match": ".*",
+          "name": "invalid.illegal.timestamp"
+        }
+      ]
     }
   }
 }

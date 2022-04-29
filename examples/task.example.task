@@ -22,7 +22,7 @@
 # iMask:             
   Project:           dev.vscode.taskwarrior
 # Separate the tags with spaces, like this: tag1 tag2
-  Tags:              
+  Tags:              ux vscode
   Description:       Write extension
   Created:           2022-04-23 22:35:53
   Started:           
