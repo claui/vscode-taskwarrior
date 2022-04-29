@@ -11,7 +11,7 @@
     "edit": {
       "patterns": [
         {
-          "include": "#attribute"
+          "include": "#entryLine"
         },
         {
           "include": "#heading"
@@ -26,19 +26,6 @@
           "include": "#missingSeparator"
         }
       ]
-    },
-    "attribute": {
-      "match": "^\\s{2}([\\S^:#][^:#]+[^#]*)$",
-      "captures": {
-        "1": {
-          "name": "meta.block.entry.task",
-          "patterns": [
-            {
-              "include": "#entry"
-            }
-          ]
-        }
-      }
     },
     "comment": {
       "match": "^((#)\\p{Print}*)$",
@@ -65,6 +52,19 @@
         },
         "4": {
           "name": "meta.string"
+        }
+      }
+    },
+    "entryLine": {
+      "match": "^\\s{2}([\\S^:#][^:#]+[^#]*)$",
+      "captures": {
+        "1": {
+          "name": "meta.block.entry.task",
+          "patterns": [
+            {
+              "include": "#entry"
+            }
+          ]
         }
       }
     },
