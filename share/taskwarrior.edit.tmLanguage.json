@@ -118,6 +118,9 @@
               "include": "#idEntry"
             },
             {
+              "include": "#statusEntry"
+            },
+            {
               "include": "#tagsEntry"
             },
             {
@@ -206,6 +209,31 @@
     "missingSeparator": {
       "match": "(^[^:#]+(?=#))|(^[^:#]+$)",
       "name": "invalid.illegal.missing.separator.task"
+    },
+    "statusEntry": {
+      "match": "(Status:)\\s*(.*)",
+      "captures": {
+        "1": {
+          "name": "meta.section.key.status",
+          "patterns": [
+            {
+              "include": "#attributeKeySection"
+            }
+          ]
+        },
+        "2": {
+          "patterns": [
+            {
+              "match": "Pending|Recurring|Waiting|Completed|Deleted",
+              "name": "variable.other.enummember.status"
+            },
+            {
+              "match": ".*",
+              "name": "invalid.illegal.status"
+            }
+          ]
+        }
+      }
     },
     "stringValue": {
       "match": ".*",
