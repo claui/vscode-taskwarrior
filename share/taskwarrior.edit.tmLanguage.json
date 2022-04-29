@@ -9,7 +9,17 @@
   ],
   "repository": {
     "edit": {
-      "include": "#comment"
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#invalidIndentation"
+        },
+        {
+          "include": "#missingSeparator"
+        }
+      ]
     },
     "comment": {
       "match": "^((#)\\p{Print}*)$",
@@ -21,6 +31,14 @@
           "name": "punctuation.definition.comment.task"
         }
       }
+    },
+    "invalidIndentation": {
+      "match": "(^\\s?[^#\\s][^:]*)|((?<=^\\s{2})\\P{Word}+)",
+      "name": "invalid.illegal.indentation.task"
+    },
+    "missingSeparator": {
+      "match": "(^[^:#]+(?=#))|(^[^:#]+$)",
+      "name": "invalid.illegal.missing.separator.task"
     }
   }
 }
