@@ -28,13 +28,15 @@
       ]
     },
     "attribute": {
-      "match": "^\\s{2}([\\S^:#][^:#]+)\\s*(:)",
+      "match": "^\\s{2}([\\S^:#][^:#]+[^#]*)$",
       "captures": {
         "1": {
-          "name": "entity.other.attribute-name.task"
-        },
-        "2": {
-          "name": "punctuation.separator.attribute-name.task"
+          "name": "meta.block.entry.task",
+          "patterns": [
+            {
+              "include": "#entry"
+            }
+          ]
         }
       }
     },
@@ -46,6 +48,23 @@
         },
         "2": {
           "name": "punctuation.definition.comment.task"
+        }
+      }
+    },
+    "entry": {
+      "match": "(?:(UDA)\\s)?([\\S^:#][^:#]+)\\s*(:)\\s*(.*)",
+      "captures": {
+        "1": {
+          "name": "keyword.other"
+        },
+        "2": {
+          "name": "entity.other.attribute-name.task"
+        },
+        "3": {
+          "name": "punctuation.separator.attribute-name.task"
+        },
+        "4": {
+          "name": "meta.string"
         }
       }
     },
