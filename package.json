@@ -50,7 +50,7 @@
     "grammars": [
       {
         "language": "taskwarrior",
-        "scopeName": "source.taskwarrior.edit",
+        "scopeName": "text.taskwarrior.edit",
         "path": "share/taskwarrior.edit.tmLanguage.json"
       }
     ]

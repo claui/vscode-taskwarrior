@@ -1,6 +1,6 @@
 {
   "name": "Taskwarrior Task",
-  "scopeName": "source.taskwarrior.edit",
+  "scopeName": "text.taskwarrior.edit",
   "uuid": "14f1056a-e10f-4b7c-900e-41a5b78dcb5c",
   "patterns": [
     {
@@ -15,7 +15,7 @@
       "match": "^((#)\\p{Print}*)$",
       "captures": {
         "1": {
-          "name": "comment.line.number-sign.task"
+          "name": "comment.line.task"
         },
         "2": {
           "name": "punctuation.definition.comment.task"
