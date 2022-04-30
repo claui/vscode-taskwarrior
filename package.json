@@ -25,7 +25,7 @@
       "[taskwarrior]": {
         "editor.autoIndent": "none",
         "editor.detectIndentation": false,
-        "editor.wrappingIndent": "deepIndent",
+        "editor.wrappingIndent": "indent",
         "editor.rulers": [
           74
         ],
