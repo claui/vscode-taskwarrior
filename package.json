@@ -1,13 +1,13 @@
 {
-  "name": "taskwarrior-edit",
+  "name": "taskwarrior",
   "version": "0.1.0",
   "publisher": "claui",
   "engines": {
     "vscode": "^1.66.0"
   },
   "license": "See License in README.md",
-  "displayName": "Edit Taskwarrior tasks",
-  "description": "Support Taskwarrior’s `task edit` command",
+  "displayName": "Manage Taskwarrior tasks",
+  "description": "Adds support for Taskwarrior’s `task edit` command",
   "categories": [
     "Programming Languages",
     "Other"
