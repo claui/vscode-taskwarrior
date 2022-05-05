@@ -22,6 +22,21 @@ To build the extension, run: `yarn package`
 Unlike `vsce package`, running `yarn package` will work around issue 517.
 Use `yarn package` as long as the issue is unresolved.
 
+## Publishing the extension
+
+To publish to the VS Code Extension Marketplace, first choose a target version.  
+[The VS Code folks recommend](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#prerelease-extensions) the following numbering scheme:
+
+- `major.ODD_NUMBER.patch` (e.g. 1.1.0) for **pre-release** versions; and
+- `major.EVEN_NUMBER.patch` (e.g. 1.2.0) for **release** versions.
+
+After deciding on a target version, run:
+
+- `yarn login`
+- `yarn publish [version]`
+
+The `yarn publish` command first updates the version number in [extension/package.json](./extension/package.json) to the given version. Then it packages and publishes the extension to the VS Code Extension Marketplace.
+
 ## License
 
 This source code repository contains code and assets sourced from different parties. Therefore, multiple sets of license terms apply to different parts of this source code repository.

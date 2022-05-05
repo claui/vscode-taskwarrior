@@ -11,7 +11,9 @@
   "packageManager": "yarn@3.2.0",
   "scripts": {
     "compile": "tsc -p extension/",
+    "login": "vsce login claui",
     "package": "cd extension && vsce package --no-dependencies --pre-release --yarn --githubBranch main/extension",
+    "publish": "cd extension && vsce publish --no-dependencies --pre-release --yarn --githubBranch main/extension",
     "vscode:prepublish": "yarn compile"
   }
 }
