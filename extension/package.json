@@ -1,0 +1,66 @@
+{
+  "name": "taskwarrior",
+  "version": "0.1.0",
+  "publisher": "claui",
+  "engines": {
+    "vscode": "^1.66.0"
+  },
+  "license": "See License in README.md",
+  "displayName": "Support for Taskwarrior tasks",
+  "description": "Provides syntax highlighting for Taskwarrior’s `task edit` command",
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "task",
+    "task-edit",
+    "taskwarrior",
+    "syntax"
+  ],
+  "preview": true,
+  "main": "out/extension.js",
+  "contributes": {
+    "configurationDefaults": {
+      "[taskwarrior]": {
+        "editor.autoIndent": "none",
+        "editor.detectIndentation": false,
+        "editor.wrappingIndent": "indent",
+        "editor.rulers": [
+          74
+        ],
+        "editor.tabSize": 2,
+        "files.trimTrailingWhitespace": false
+      }
+    },
+    "languages": [
+      {
+        "id": "taskwarrior",
+        "aliases": [
+          "Taskwarrior Task",
+          "task"
+        ],
+        "filenamePatterns": [
+          "task.*.task"
+        ],
+        "firstLine": "^# The 'task <id> edit' command allows you to modify all aspects of a task",
+        "configuration": "share/language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "taskwarrior",
+        "scopeName": "text.taskwarrior.edit",
+        "path": "share/taskwarrior.edit.tmLanguage.json"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onLanguage:taskwarrior"
+  ],
+  "extensionKind": [
+    "workspace"
+  ],
+  "repository": "github:claui/vscode-taskwarrior",
+  "packageManager": "yarn@3.2.0"
+}
