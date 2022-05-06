@@ -21,6 +21,16 @@
   "preview": true,
   "main": "out/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "Taskwarrior",
+      "properties": {
+        "taskwarrior.executablePath": {
+          "type": "string",
+          "markdownDescription": "Path to the `task` executable. Useful if it’s not on your `PATH`.",
+          "scope": "machine-overridable"
+        }
+      }
+    },
     "configurationDefaults": {
       "[taskwarrior]": {
         "editor.autoIndent": "none",
