@@ -33,7 +33,7 @@ To publish to the VS Code Extension Marketplace, first choose a target version.
 After deciding on a target version, run:
 
 - `yarn login`
-- `yarn publish [version]`
+- `yarn publish [--pre-release] [version]`
 
 The `yarn publish` command first updates the version number in [extension/package.json](./extension/package.json) to the given version. Then it packages and publishes the extension to the VS Code Extension Marketplace.
 
