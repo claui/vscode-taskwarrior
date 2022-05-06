@@ -23,6 +23,6 @@
     }
   ],
   "search.exclude": {
-    "/out": true
+    "/extension/out": true
   }
 }
