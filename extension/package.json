@@ -33,6 +33,13 @@
         "files.trimTrailingWhitespace": false
       }
     },
+    "grammars": [
+      {
+        "language": "taskwarrior",
+        "scopeName": "text.taskwarrior.edit",
+        "path": "share/taskwarrior.edit.tmLanguage.json"
+      }
+    ],
     "languages": [
       {
         "id": "taskwarrior",
@@ -45,13 +52,6 @@
         ],
         "firstLine": "^# The 'task <id> edit' command allows you to modify all aspects of a task",
         "configuration": "share/language-configuration.json"
-      }
-    ],
-    "grammars": [
-      {
-        "language": "taskwarrior",
-        "scopeName": "text.taskwarrior.edit",
-        "path": "share/taskwarrior.edit.tmLanguage.json"
       }
     ]
   },
