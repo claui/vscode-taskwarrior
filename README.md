@@ -19,7 +19,7 @@ To install dependencies, run: `yarn install`
 
 To build the extension, run: `yarn package`
 
-Unlike `vsce package`, running `yarn package` will work around issue 517.
+Unlike `vsce package`, running `yarn package` will work around issue microsoft/vscode-vsce#517.
 Use `yarn package` as long as the issue is unresolved.
 
 ## Publishing the extension
