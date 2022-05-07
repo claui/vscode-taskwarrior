@@ -21,6 +21,12 @@
   "preview": true,
   "main": "out/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "taskwarrior.action.showLog",
+        "title": "Taskwarrior: Show extension log"
+      }
+    ],
     "configuration": {
       "title": "Taskwarrior",
       "properties": {
@@ -54,8 +60,8 @@
       {
         "id": "taskwarrior",
         "aliases": [
-          "Taskwarrior Task",
-          "task"
+          "Task",
+          "Taskwarrior Task"
         ],
         "filenamePatterns": [
           "task.*.task"
