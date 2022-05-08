@@ -21,6 +21,26 @@
   "preview": true,
   "main": "out/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "taskwarrior.action.refresh",
+        "title": "Taskwarrior: Refresh connection"
+      },
+      {
+        "command": "taskwarrior.action.showLog",
+        "title": "Taskwarrior: Show extension log"
+      }
+    ],
+    "configuration": {
+      "title": "Taskwarrior",
+      "properties": {
+        "taskwarrior.executablePath": {
+          "type": "string",
+          "markdownDescription": "Path to the `task` executable, e.\u2009g. `/usr/local/bin/task`.  \nLeave blank if it’s already on your `PATH`.",
+          "scope": "machine-overridable"
+        }
+      }
+    },
     "configurationDefaults": {
       "[taskwarrior]": {
         "editor.autoIndent": "none",
@@ -33,25 +53,25 @@
         "files.trimTrailingWhitespace": false
       }
     },
+    "grammars": [
+      {
+        "language": "taskwarrior",
+        "scopeName": "text.taskwarrior.edit",
+        "path": "share/taskwarrior.edit.tmLanguage.json"
+      }
+    ],
     "languages": [
       {
         "id": "taskwarrior",
         "aliases": [
-          "Taskwarrior Task",
-          "task"
+          "Task",
+          "Taskwarrior Task"
         ],
         "filenamePatterns": [
           "task.*.task"
         ],
         "firstLine": "^# The 'task <id> edit' command allows you to modify all aspects of a task",
         "configuration": "share/language-configuration.json"
-      }
-    ],
-    "grammars": [
-      {
-        "language": "taskwarrior",
-        "scopeName": "text.taskwarrior.edit",
-        "path": "share/taskwarrior.edit.tmLanguage.json"
       }
     ]
   },
