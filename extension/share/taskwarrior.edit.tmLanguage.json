@@ -165,6 +165,9 @@
               "include": "#dependenciesEntry"
             },
             {
+              "include": "#udaPriorityEntry"
+            },
+            {
               "include": "#parentEntry"
             },
             {
@@ -321,6 +324,34 @@
           "name": "invalid.illegal.timestamp"
         }
       ]
+    },
+    "udaPriority": {
+      "match": "(?<!\\S)(?:L|M|H)",
+      "name": "variable.other.enummember.uda.priority"
+    },
+    "udaPriorityEntry": {
+      "match": "(UDA priority:)\\s*(.*)",
+      "captures": {
+        "1": {
+          "name": "meta.section.uda.key.priority",
+          "patterns": [
+            {
+              "include": "#attributeKeySection"
+            }
+          ]
+        },
+        "2": {
+          "patterns": [
+            {
+              "include": "#udaPriority"
+            },
+            {
+              "match": ".*",
+              "name": "invalid.illegal.uda.priority"
+            }
+          ]
+        }
+      }
     },
     "unchangeableEntry": {
       "match": "(?:ID|UUID|Status|Mask|iMask|Modified):.*",
