@@ -3,8 +3,8 @@ import CliFailedError from "../errors/cli-failed";
 
 const MAX_LENGTH = 256;
 
-export const getTaskwarriorVersion = async (cli: TaskCli): Promise<String> => {
-  let stdout: String | Buffer | PromiseLike<String>;
+export const getTaskwarriorVersion = async (cli: TaskCli): Promise<string> => {
+  let stdout: string | Buffer;
   try {
     stdout = await cli.run(["_version"]);
   } catch (error) {
