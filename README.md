@@ -47,6 +47,7 @@ The following table shows which terms apply to which parts of this source code r
 |---|---|---|---|
 | `.` | This directory | Apache-2.0 | [License](./LICENSE)<br>with License header below |
 | `./.yarn/releases` | The `yarn` package manager | BSD-2-Clause | [License](./.yarn/releases/LICENSE) |
+| `./.yarn/sdks` | SDK files for `yarn` | BSD-2-Clause | [License](./.yarn/sdks/LICENSE) |
 | `./extension` | The source code for this VS Code extension | Apache-2.0 | [License](./extension/LICENSE.txt)<br>with [License header](./extension/README.md#license) |
 
 In each of the directories the table mentions, you will find one license file, named `LICENSE` or `LICENSE.txt`.  

@@ -1,5 +1,7 @@
 {
   "recommendations": [
+    "arcanis.vscode-zipfs",
+    "dbaeumer.vscode-eslint",
     "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
     "redhat.vscode-yaml"

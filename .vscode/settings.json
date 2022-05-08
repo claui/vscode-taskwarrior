@@ -14,6 +14,7 @@
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
+  "eslint.nodePath": ".yarn/sdks",
   "json.schemas": [
     {
       "fileMatch": [
@@ -23,6 +24,10 @@
     }
   ],
   "search.exclude": {
+    "/.yarn": true,
+    "/.pnp.*": true,
     "/extension/out": true
-  }
+  },
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }
