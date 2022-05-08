@@ -5,20 +5,28 @@ import {
   languages,
   window,
   workspace,
+  DocumentSelector,
 } from "vscode";
 
 import CliFailedError from "./errors/cli-failed";
+import Logger from "./logger";
+import { getInlayHintsProvider } from "./attributes";
 import { getTaskCli } from "./cli-adapter";
 import { getTaskwarriorVersion, TaskCli } from "./task-cli";
 import { getCurrentTimestamp } from "./time";
 
 const outputChannel = window.createOutputChannel("Taskwarrior");
 
-const log = {
-  error: function (...args: any[]) {
+const languageSelector: DocumentSelector = { language: "taskwarrior" };
+
+const log: Logger = {
+  debug: function (...args) {
+    this.log("DEBUG", ...args);
+  },
+  error: function (...args) {
     this.log("ERROR", ...args);
   },
-  info: function (...args: any[]) {
+  info: function (...args) {
     this.log("INFO", ...args);
   },
   log: function (level: string, ...args: any[]) {
@@ -29,7 +37,7 @@ const log = {
 
 const statusItem: LanguageStatusItem = languages.createLanguageStatusItem(
   "taskwarrior.status.item.version",
-  { language: "taskwarrior" }
+  languageSelector
 );
 
 const refreshStatus = async (taskCli: TaskCli) => {
@@ -60,6 +68,10 @@ export function activate(context: ExtensionContext) {
   commands.registerCommand("taskwarrior.action.showLog", () => {
     outputChannel.show();
   });
+  languages.registerInlayHintsProvider(
+    languageSelector,
+    getInlayHintsProvider(log)
+  );
   workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration("taskwarrior")) {
       getTaskCli(context).then(refreshStatus);
