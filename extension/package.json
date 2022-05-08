@@ -23,6 +23,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "taskwarrior.action.refresh",
+        "title": "Taskwarrior: Refresh connection"
+      },
+      {
         "command": "taskwarrior.action.showLog",
         "title": "Taskwarrior: Show extension log"
       }
@@ -32,7 +36,7 @@
       "properties": {
         "taskwarrior.executablePath": {
           "type": "string",
-          "markdownDescription": "Path to the `task` executable. Useful if it’s not on your `PATH`.",
+          "markdownDescription": "Path to the `task` executable, e.\u2009g. `/usr/local/bin/task`.  \nLeave blank if it’s already on your `PATH`.",
           "scope": "machine-overridable"
         }
       }

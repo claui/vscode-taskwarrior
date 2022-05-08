@@ -4,52 +4,78 @@ import {
   commands,
   languages,
   window,
+  workspace,
 } from "vscode";
 
-import { sleep } from "./time";
+import { getTaskCli } from "./cli-adapter";
+import CliFailedError from "./errors/cli-failed";
+import { getTaskwarriorVersion, TaskCli } from "./task-cli";
+import { getCurrentTimestamp } from "./time";
 
-const log = window.createOutputChannel("Taskwarrior");
+const outputChannel = window.createOutputChannel("Taskwarrior");
 
-const dateTimeFormat: Intl.DateTimeFormat = new Intl.DateTimeFormat();
+const log = {
+  error: function (...args: any[]) {
+    this.log("ERROR", ...args);
+  },
+  info: function (...args: any[]) {
+    this.log("INFO", ...args);
+  },
+  log: function (level: string, ...args: any[]) {
+    const timestamp = getCurrentTimestamp();
+    outputChannel.appendLine(`${timestamp} [${level}] ${args.join(" ")}`);
+  },
+};
 
 const statusItem: LanguageStatusItem = languages.createLanguageStatusItem(
   "taskwarrior.status.item.version",
   { language: "taskwarrior" }
 );
 
-const getTaskWarriorVersion = async () => {
-  await sleep(1000);
-  return "2.6.2";
-};
-
-const refreshStatus = async () => {
-  statusItem.detail = "Querying TaskWarrior version";
-  log.appendLine(statusItem.detail);
-  statusItem.busy = true;
-
+const refreshStatus = async (taskCli: TaskCli) => {
   try {
-    const versionNumber = await getTaskWarriorVersion();
+    statusItem.detail = "Querying Taskwarrior version";
+    log.info(statusItem.detail);
+    statusItem.busy = true;
+
+    const versionNumber = await getTaskwarriorVersion(taskCli);
     statusItem.text = `Taskwarrior v${versionNumber}`;
-    log.appendLine(`Taskwarrior version: ${versionNumber}`);
+    log.info(statusItem.text);
+    statusItem.detail = `Last updated: ${getCurrentTimestamp()}`;
   } catch (error) {
     statusItem.text = "$(error) Taskwarrior";
+    log.error(error?.message ?? error);
+    if (error instanceof CliFailedError) {
+      log.error(`> ${error?.cause.message}`);
+    }
+  } finally {
+    statusItem.busy = false;
   }
-  statusItem.detail = `Last updated: ${dateTimeFormat.format(new Date())}`;
-  log.appendLine(statusItem.detail);
-  statusItem.busy = false;
 };
 
 export function activate(context: ExtensionContext) {
+  commands.registerCommand("taskwarrior.action.refresh", () => {
+    getTaskCli(context).then(refreshStatus);
+  });
   commands.registerCommand("taskwarrior.action.showLog", () => {
-    log.show();
+    outputChannel.show();
+  });
+  workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration("taskwarrior")) {
+      getTaskCli(context).then(refreshStatus);
+    }
   });
   statusItem.command = {
     command: "taskwarrior.action.showLog",
     title: "Show extension log",
   };
-  refreshStatus();
+
+  getTaskCli(context).then(refreshStatus);
+
   return {
-    getTaskWarriorVersion,
+    getTaskwarriorVersion: async () => {
+      return getTaskwarriorVersion(await getTaskCli(context));
+    },
   };
 }
 
