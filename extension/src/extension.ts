@@ -7,8 +7,8 @@ import {
   workspace,
 } from "vscode";
 
-import { getTaskCli } from "./cli-adapter";
 import CliFailedError from "./errors/cli-failed";
+import { getTaskCli } from "./cli-adapter";
 import { getTaskwarriorVersion, TaskCli } from "./task-cli";
 import { getCurrentTimestamp } from "./time";
 
