@@ -10,9 +10,18 @@ import {
 
 import CliFailedError from "./errors/cli-failed";
 import Logger from "./logger";
-import { getInlayHintsProvider } from "./attributes";
+
+import {
+  getDependenciesCodeLensProvider,
+  getInlayHintsProvider,
+} from "./attributes";
+
 import { getTaskCli } from "./cli-adapter";
-import { getTaskwarriorVersion, TaskCli } from "./task-cli";
+import {
+  getDescriptionsByIdProvider,
+  getTaskwarriorVersion,
+  TaskCli,
+} from "./task-cli";
 import { getCurrentTimestamp } from "./time";
 
 const outputChannel = window.createOutputChannel("Taskwarrior");
@@ -70,7 +79,7 @@ export function activate(context: ExtensionContext) {
   });
   languages.registerInlayHintsProvider(
     languageSelector,
-    getInlayHintsProvider(log)
+    getInlayHintsProvider()
   );
   workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration("taskwarrior")) {
@@ -82,7 +91,14 @@ export function activate(context: ExtensionContext) {
     title: "Show extension log",
   };
 
-  getTaskCli(context).then(refreshStatus);
+  getTaskCli(context).then((cli) => {
+    refreshStatus(cli);
+
+    languages.registerCodeLensProvider(
+      languageSelector,
+      getDependenciesCodeLensProvider(getDescriptionsByIdProvider(cli))
+    );
+  });
 
   return {
     getTaskwarriorVersion: async () => {

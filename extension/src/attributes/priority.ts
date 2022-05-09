@@ -6,8 +6,6 @@ import {
   TextDocument,
 } from "vscode";
 
-import Logger from "../logger";
-
 const pattern = /^(\s{2}UDA priority:\s*)(L|M|H)/;
 
 const abbreviatedLabels = ["Low", "Medium", "High"];
@@ -20,11 +18,7 @@ function fromPosition({ line, character }: Position): string {
   return `(Ln ${line}, Col ${character})`;
 }
 
-function* generateInlayHints(
-  document: TextDocument,
-  range: Range,
-  log: Logger
-) {
+function* generateInlayHints(document: TextDocument, range: Range) {
   if (range.isEmpty) {
     return;
   }
@@ -56,10 +50,10 @@ function* generateInlayHints(
   }
 }
 
-export function getInlayHintsProvider(log: Logger): InlayHintsProvider {
+export function getInlayHintsProvider(): InlayHintsProvider {
   return {
     provideInlayHints: (document, range) =>
-      Array.from(generateInlayHints(document, range, log)),
+      Array.from(generateInlayHints(document, range)),
     resolveInlayHint: (item) => item,
   };
 }
