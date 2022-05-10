@@ -6,10 +6,7 @@ This is the source code repository for the `taskwarrior` VS Code extension.
 
 This VS Code extension provides syntax highlighting for Taskwarrior’s `task edit` command.
 
-<!-- Uncomment as soon as it has more features -->
-<!--
-For more details, see [extension/README.md](./extension/README.md).
--->
+For more features and details, see [extension/README.md](./extension/README.md).
 
 ## Building the extension
 

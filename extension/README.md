@@ -6,6 +6,8 @@ This extension provides support for Taskwarrior tasks in VS Code.
 
 - Syntax highlighting for Taskwarrior’s `task edit` command
 
+- Display task descriptions for dependencies
+
 - Show *Low*, *Medium*, and *High* inlay hints next to `priority` values
 
 ## License
