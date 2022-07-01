@@ -175,10 +175,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^17.0.25":
-  version: 17.0.25
-  resolution: "@types/node@npm:17.0.25"
-  checksum: 6a820bd624e69ea772f52a6cdb326484eff5829443dc981939373929ade109f58c21698b9f0a831bd6ceea799e722a75dc49c5fa7a6bc32a81e1cbdfc6507b64
+"@types/node@npm:^18.0.0":
+  version: 18.0.0
+  resolution: "@types/node@npm:18.0.0"
+  checksum: aab2b325727a2599f6d25ebe0dedf58c40fb66a51ce4ca9c0226ceb70fcda2d3afccdca29db5942eb48b158ee8585a274a1e3750c718bbd5399d7f41d62dfdcc
   languageName: node
   linkType: hard
 
@@ -205,10 +205,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/vscode@npm:^1.66.0":
-  version: 1.66.0
-  resolution: "@types/vscode@npm:1.66.0"
-  checksum: 68af14b74bc0924e12255ce03ac43d40cdb0461b8016ff7ce4fcf80b0f6074e81b3e00a9c8840e54ff9cc75a1f32879b1822fd32b974490b1e18bd165af8d21e
+"@types/vscode@npm:^1.68.1":
+  version: 1.68.1
+  resolution: "@types/vscode@npm:1.68.1"
+  checksum: 1a8c086f699ace1a88493ae451905673a4948e20562b7fb6d8494d35e5c28177545a940afa58ba40b0be52f5ece40217f88592b9d2823c408c9bc7df60ae3bbe
   languageName: node
   linkType: hard
 
@@ -3058,8 +3058,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "vscode-taskwarrior@workspace:."
   dependencies:
-    "@types/node": ^17.0.25
-    "@types/vscode": ^1.66.0
+    "@types/node": ^18.0.0
+    "@types/vscode": ^1.68.1
     "@yarnpkg/sdks": ^3.0.0-rc.10
     eslint: ^8.18.0
     typescript: ^4.7.4
