@@ -34,6 +34,63 @@ After deciding on a target version, run:
 
 The `yarn publish` command first updates the version number in [extension/package.json](./extension/package.json) to the given version. Then it packages and publishes the extension to the VS Code Extension Marketplace.
 
+## Handling vulnerable packages
+
+### The thing about vulnerabilities in transitive dependencies
+
+People sometimes discover vulnerabilities in packages on which
+vscode-taskwarrior depends.
+
+If that happens and a patch comes out, I need to upgrade the
+affected package to a newer version, which includes the patch.
+
+But a vulnerability might also affect a package on which
+vscode-taskwarrior depends only indirectly, e.g. through a
+transitive requirement. A patch may exist for such a package, but
+somewhere in the chain of dependencies (from the vulnerable package
+all the way down to vscode-taskwarrior), the patch may be
+outside the specified semver range so I **can’t upgrade** the
+package via the usual `yarn up` or `yarn up -R` command.
+
+### Dealing with the risk
+
+If such cases arise, I’m going to try force-upgrading affected
+packages, and document those upgrades in the section
+_List of force-upgraded transitive dependencies_ below.  
+Even if the upgrade happens to fail (or if it breaks the app and I
+have to roll back the upgrade, leaving the vulnerability unpatched),
+I’m also going to document that failure here.
+
+## List of force-upgraded transitive dependencies
+
+The goal of this list is:
+
+- to document the drift between version requirements (in the tree
+  of `package.json` files) and the resolutions in `yarn.lock`; and
+
+- to inform about unpatched vulnerabilities.
+
+<!-- Remove this line when adding the first entry: -->No entries yet.
+
+<!--
+I have preserved the order in which I have applied the upgrades.
+The list starts with the first upgrade and ends with the latest one.
+-->
+
+<!--
+### Vulnerability in …………, dependency of ………… v…………
+
+I have manually bumped `…………`’s dependency `…………` to
+v………… in order to bump the transitive dependency `…………` to v…………:
+
+```shell
+yarn set resolution --save …………@npm:………… …………
+```
+
+(Remove this section once an upgrade to `…………` is available
+that depends on ………… v………… or higher.)
+-->
+
 ## License
 
 This source code repository contains code and assets sourced from different parties. Therefore, multiple sets of license terms apply to different parts of this source code repository.
