@@ -1,6 +1,6 @@
 {
   "name": "taskwarrior",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "publisher": "claui",
   "engines": {
     "vscode": "^1.66.0"
@@ -36,7 +36,7 @@
       "properties": {
         "taskwarrior.executablePath": {
           "type": "string",
-          "markdownDescription": "Path to the `task` executable, e.\u2009g. `/usr/local/bin/task`.  \nLeave blank if it’s already on your `PATH`.",
+          "markdownDescription": "Path to the `task` executable, e. g. `/usr/local/bin/task`.  \nLeave blank if it’s already on your `PATH`.",
           "scope": "machine-overridable"
         }
       }
