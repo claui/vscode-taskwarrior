@@ -11,15 +11,15 @@
   },
   "packageManager": "yarn@3.2.0",
   "scripts": {
+    "clean-install": "yarn install && git checkout -- .vscode/settings.json '.yarn/*/LICENSE'",
     "compile": "tsc -p extension/",
     "login": "vsce login claui",
     "package": "cd extension && vsce package --no-dependencies --yarn --githubBranch main/extension",
     "postinstall": "yarn sdks vscode",
     "publish": "cd extension && vsce publish --no-dependencies --yarn --githubBranch main/extension",
-    "_revert-selfupgrade-fallout": "git checkout -- .vscode/settings.json '.yarn/*/LICENSE'",
-    "upgrade-all": "yarn upgrade-yarn-itself && yarn upgrade-packages",
-    "upgrade-packages": "yarn up '*' && yarn _revert-selfupgrade-fallout",
-    "upgrade-yarn-itself": "yarn set version latest && yarn _revert-selfupgrade-fallout",
+    "upgrade-all": "printf >&2 '%s\\n\\t%s\\n' 'Run the following command line manually:' 'yarn set version latest && yarn upgrade-packages' && false",
+    "upgrade-packages": "yarn up '*' && yarn clean-install",
+    "upgrade-yarn-itself": "printf >&2 '%s\\n\\t%s\\n' 'Run the following command line manually:' 'yarn set version latest && yarn clean-install' && false",
     "vscode:prepublish": "yarn compile"
   }
 }
