@@ -2,20 +2,24 @@
   "name": "vscode-taskwarrior",
   "license": "See License in README.md",
   "devDependencies": {
-    "@types/node": "^17.0.25",
-    "@types/vscode": "^1.66.0",
-    "@yarnpkg/sdks": "^3.0.0-rc.4",
-    "eslint": "^8.14.0",
-    "typescript": "^4.6.3",
-    "vsce": "^2.7.0"
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.68.1",
+    "@yarnpkg/sdks": "^3.0.0-rc.10",
+    "eslint": "^8.18.0",
+    "typescript": "^4.7.4",
+    "vsce": "^2.9.2"
   },
-  "packageManager": "yarn@3.2.0",
+  "packageManager": "yarn@3.2.1",
   "scripts": {
+    "clean-install": "yarn install && git checkout -- .vscode/settings.json '.yarn/*/LICENSE'",
     "compile": "tsc -p extension/",
     "login": "vsce login claui",
     "package": "cd extension && vsce package --no-dependencies --yarn --githubBranch main/extension",
     "postinstall": "yarn sdks vscode",
     "publish": "cd extension && vsce publish --no-dependencies --yarn --githubBranch main/extension",
+    "upgrade-all": "printf >&2 '%s\\n\\t%s\\n' 'Run the following command line manually:' 'yarn set version latest && yarn upgrade-packages' && false",
+    "upgrade-packages": "yarn up '*' '@types/*' '@yarnpkg/*' && yarn clean-install",
+    "upgrade-yarn-itself": "printf >&2 '%s\\n\\t%s\\n' 'Run the following command line manually:' 'yarn set version latest && yarn clean-install' && false",
     "vscode:prepublish": "yarn compile"
   }
 }
