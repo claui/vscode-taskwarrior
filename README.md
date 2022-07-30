@@ -8,9 +8,14 @@ This VS Code extension provides syntax highlighting for Taskwarrior’s `task e
 
 For more features and details, see [extension/README.md](./extension/README.md).
 
-## Building the extension
+## Contributing to the extension
 
-Building this VS Code extension requires `yarn` to be installed on your system.
+Working on this VS Code extension requires the following programs to be installed on your system:
+
+- `yarn` (required)
+- `nvm` (recommended)
+
+To prepare your session, `cd` to the project root directory, then run `nvm use`.
 
 To install dependencies, run: `yarn install`
 
