@@ -33,7 +33,7 @@ If that fails, consult the _Maintenance_ section.
 
 To build the extension, run: `yarn package`
 
-Unlike `vsce package`, running `yarn package` will work around issue microsoft/vscode-vsce#517.
+Unlike `vsce package`, running `yarn package` will work around issue [microsoft/vscode-vsce#517](https://github.com/microsoft/vscode-vsce/issues/517).
 Use `yarn package` as long as the issue is unresolved.
 
 ## Publishing the extension
