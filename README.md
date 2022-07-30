@@ -12,16 +12,24 @@ This VS Code extension provides syntax highlighting for Taskwarrior’s `task e
 
 For more features and details, see the user documentation: [extension/README.md](./extension/README.md)
 
-## Contributing to the extension
+## Requirements for contributing
 
 Working on this VS Code extension requires the following programs to be installed on your system:
 
 - `yarn` (required)
 - `nvm` (recommended)
 
+## Preparing your session
+
 To prepare your session, `cd` to the project root directory, then run `nvm use`.
 
+## Installing dependencies
+
 To install dependencies, run: `yarn install`
+
+If that fails, consult the _Maintenance_ section.
+
+## Building the extension
 
 To build the extension, run: `yarn package`
 
@@ -43,7 +51,37 @@ After deciding on a target version, run:
 
 The `yarn publish` command first updates the version number in [extension/package.json](./extension/package.json) to the given version. Then it packages and publishes the extension to the VS Code Extension Marketplace.
 
-## Handling vulnerable packages
+## Maintenance
+
+### yarn install
+
+To install the current project dependencies as specified in `package.json` and `yarn.lock`, run `yarn install`.
+
+### yarn clean-install
+
+If the Yarn version has changed and you run `yarn install`, Yarn will try to upgrade itself. That causes changes to several files, such as the `LICENSE` files I have placed into several subdirectories.
+
+Anytime that happens, run the `yarn clean-install` script, a wrapper around `yarn install` which cleans up afterwards.
+
+Note that the `yarn clean-install` script may fail and tell you to run `yarn install` instead. I haven’t figured out why it does that. If that happens, run `yarn install` followed by `yarn clean-install`.
+
+### yarn upgrade-yarn-itself
+
+To upgrade Yarn PnP to the latest available version, run the `yarn upgrade-yarn-itself` script.
+
+Note that the script will only print manual instructions. That’s because Yarn makes changes to `package.json`, and that doesn’t play well with Yarn PnP in scripts.
+
+### yarn upgrade-packages
+
+The built-in `yarn up` command can be a bit cumbersome to use if you want to upgrade all dependencies in one go.
+
+Running the `yarn upgrade-packages` script will upgrade all relevant dependencies. That includes the `@types` and `@yarnpkg` scopes but excludes Yarn itself (see section *Bumping the Yarn version*).
+
+### yarn upgrade-all
+
+To also upgrade Yarn itself, run `yarn upgrade-all`.
+
+## Handling vulnerable dependencies
 
 ### The thing about vulnerabilities in transitive dependencies
 
