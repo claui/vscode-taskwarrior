@@ -75,7 +75,7 @@ Note that the script will only print manual instructions. That’s because Yarn 
 
 The built-in `yarn up` command can be a bit cumbersome to use if you want to upgrade all dependencies in one go.
 
-Running the `yarn upgrade-packages` script will upgrade all relevant dependencies. That includes the `@types` and `@yarnpkg` scopes but excludes Yarn itself (see section *Bumping the Yarn version*).
+Running the `yarn upgrade-packages` script will upgrade all relevant dependencies. That includes the `@types` and `@yarnpkg` scopes but excludes Yarn itself (see the `yarn upgrade-yarn-itself` section).
 
 ### yarn upgrade-all
 
