@@ -1,6 +1,6 @@
 {
   "name": "taskwarrior",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "publisher": "claui",
   "engines": {
     "vscode": "^1.66.0"
