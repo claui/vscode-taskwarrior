@@ -62,8 +62,8 @@ const refreshStatus = async (taskCli: TaskCli) => {
   } catch (error) {
     statusItem.text = "$(error) Taskwarrior";
     log.error(error?.message ?? error);
-    if (error instanceof CliFailedError) {
-      log.error(`> ${error?.cause.message}`);
+    if (error instanceof CliFailedError && "cause" in error) {
+      log.error(`> ${error.cause}`);
     }
   } finally {
     statusItem.busy = false;
