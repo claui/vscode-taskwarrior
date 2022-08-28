@@ -1,8 +1,10 @@
 # vscode-taskwarrior
 
-This is the source code repository for the `taskwarrior` VS Code extension.
+This is the source code repository for the `taskwarrior` VS Code
+extension.
 
-This document is for **contributors,** not for users of this extension.  
+This document is for **contributors,** not for users of this
+extension.  
 For **user documentation,** see: [extension/README.md](./extension/README.md)  
 For **license information,** see the bottom of this document.
 
@@ -10,18 +12,21 @@ For **license information,** see the bottom of this document.
 
 This VS Code extension provides syntax highlighting for Taskwarrior’s `task edit` command.
 
-For more features and details, see the user documentation: [extension/README.md](./extension/README.md)
+For more features and details, see the user documentation:
+[extension/README.md](./extension/README.md)
 
 ## Requirements for contributing
 
-Working on this VS Code extension requires the following programs to be installed on your system:
+Working on this VS Code extension requires the following programs to
+be installed on your system:
 
 - `yarn` (required)
 - `nvm` (recommended)
 
 ## Preparing your session
 
-To prepare your session, `cd` to the project root directory, then run `nvm use`.
+To prepare your session, `cd` to the project root directory, then
+run `nvm use`.
 
 ## Installing dependencies
 
@@ -33,37 +38,88 @@ If that fails, consult the _Maintenance_ section.
 
 To build the extension, run: `yarn package`
 
-Unlike `vsce package`, running `yarn package` will work around issue [microsoft/vscode-vsce#517](https://github.com/microsoft/vscode-vsce/issues/517).
+Unlike `vsce package`, running `yarn package` will work around issue
+[microsoft/vscode-vsce#517](https://github.com/microsoft/vscode-vsce/issues/517).
 Use `yarn package` as long as the issue is unresolved.
 
 ## Publishing the extension
 
-To publish to the VS Code Extension Marketplace, first choose a target version.  
-[The VS Code folks recommend](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#prerelease-extensions) the following numbering scheme:
+Publishing the extension has several steps:
+
+1. Merge the contributions.
+2. Choose a target version number.
+3. Publish to the Marketplace. (This modifies `extension/package.json`.)
+4. Create a Git commit, Git tag, GitHub prerelease and GitHub PR.
+
+### Merging the contributions
+
+Make sure that all the contributions you’re going to have in the
+release have been merged to the `main` branch.
+
+### Choosing a target version number
+
+With all contributions merged into `main`, choose a target version
+number.  
+[The VS Code folks recommend](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#prerelease-extensions)
+the following numbering scheme:
 
 - `major.ODD_NUMBER.patch` (e.g. 1.1.0) for **pre-release** versions; and
 - `major.EVEN_NUMBER.patch` (e.g. 1.2.0) for **release** versions.
 
+### Publishing to the Marketplace
+
 After deciding on a target version, run:
 
+- `git checkout main`
 - `yarn login`
 - `yarn publish [--pre-release] [version]`
 
-The `yarn publish` command first updates the version number in [extension/package.json](./extension/package.json) to the given version. Then it packages and publishes the extension to the VS Code Extension Marketplace.
+The `yarn publish` command first updates the version number in
+[extension/package.json](./extension/package.json) to the given
+version. Then it packages and publishes the extension to the VS Code
+Extension Marketplace.
+
+### Committing, tagging and creating a GitHub prerelease and PR
+
+With the extension now published on the Marketplace, commit the
+change, create a tag, push, cut a GitHub (pre-)release, and create a
+pull request against `main`:
+
+```
+(
+  set -eux
+  git checkout -b publish
+  tag="$(jq -r '"v" + .version' extension/package.json)"
+  echo "New tag: ${tag}"
+  git add -u
+  git commit --edit -m "Release ${tag}"
+  git tag "${tag}"
+  git push --tags
+  gh release create --generate-notes --prerelease "${tag}"
+  gh pr create --fill --web
+)
+```
 
 ## Maintenance
 
 ### yarn install
 
-To install the current project dependencies as specified in `package.json` and `yarn.lock`, run `yarn install`.
+To install the current project dependencies as specified in
+`package.json` and `yarn.lock`, run `yarn install`.
 
 ### yarn clean-install
 
-If the Yarn version has changed and you run `yarn install`, Yarn will try to upgrade itself. That causes changes to several files, such as the `LICENSE` files I have placed into several subdirectories.
+If the Yarn version has changed and you run `yarn install`, Yarn
+will try to upgrade itself. That causes changes to several files,
+such as the `LICENSE` files I have placed into several
+subdirectories.
 
-Anytime that happens, run the `yarn clean-install` script, a wrapper around `yarn install` which cleans up afterwards.
+Anytime that happens, run the `yarn clean-install` script, a wrapper
+around `yarn install` which cleans up afterwards.
 
-Note that the `yarn clean-install` script may fail and tell you to run `yarn install` instead. I haven’t figured out why it does that. If that happens, run `yarn install` followed by `yarn clean-install`.
+Note that the `yarn clean-install` script may fail and tell you to
+run `yarn install` instead. I haven’t figured out why it does that.
+If that happens, run `yarn install` followed by `yarn clean-install`.
 
 ### yarn outdated
 
@@ -77,7 +133,8 @@ possible, but leaves your `package.json` as is.
 
 ### yarn upgrade-packages
 
-The built-in `yarn up` command can be a bit cumbersome to use if you want to upgrade all dependencies in one go.
+The built-in `yarn up` command can be a bit cumbersome to use if you
+want to upgrade all dependencies in one go.
 
 Running the `yarn upgrade-packages` script will upgrade all relevant
 dependencies. That includes the `@types` and `@yarnpkg` scopes but
@@ -88,15 +145,18 @@ section _Upgrading the VS Code API_.
 
 ### yarn upgrade-yarn-itself
 
-To upgrade Yarn PnP to the latest available version, run the `yarn upgrade-yarn-itself` script.
+To upgrade Yarn PnP to the latest available version, run the
+`yarn upgrade-yarn-itself` script.
 
-Note that the script will only print manual instructions. That’s because Yarn makes changes to `package.json`, and that doesn’t play well with Yarn PnP in scripts.
+Note that the script will only print manual instructions. That’s
+because Yarn makes changes to `package.json`, and that doesn’t play
+well with Yarn PnP in scripts.
 
 ### yarn upgrade-all
 
 To also upgrade Yarn itself, run `yarn upgrade-all`.
 
-### Upgrading the VS Code API
+### Upgrading the VS Code API version
 
 Upgrading the version of the `@types/vscode` package should always
 be a manual step and a conscious decision. It effectively bumps the
@@ -105,15 +165,19 @@ minimum supported VS Code version that this extension supports.
 To bump the minimum supported VS Code version, follow these steps:
 
 1. In `package.json`, manually update the minimum version to a new
-   version triple (e.g. `~=1.99.0`).  
-   Make sure to preserve the `~=` prefix as you change the value.
+   version tuple (e.g. `=1.99`).  
+   Make sure to preserve the `=` prefix as you change the value.
 
-2. In `extension/package.json` under the `engines` section, manually
-   update the value of the `vscode` property to the new version
-   triple.  
+2. In `package.json`, modify the `upgrade-package` script to update
+   the same tuple (e.g `@types/vscode@=1.99`).  
+   Preserve the `@types/vscode@=` prefix as you change the value.
+
+3. In `extension/package.json` under the `engines` section, manually
+   update the value of the `vscode` property to the chosen version.
+   Since `vsce` expects a triple for that property, append a `.0`.  
    Preserve the `^` prefix as you change the value.
 
-3. Run `yarn clean-install`.
+4. Run `yarn clean-install`.
 
 ## Handling vulnerable dependencies
 
@@ -183,9 +247,12 @@ that depends on ………… v………… or higher.)
 
 ## License
 
-This source code repository contains code and assets sourced from different parties. Therefore, multiple sets of license terms apply to different parts of this source code repository.
+This source code repository contains code and assets sourced from
+different parties. Therefore, multiple sets of license terms apply
+to different parts of this source code repository.
 
-The following table shows which terms apply to which parts of this source code repository:
+The following table shows which terms apply to which parts of this
+source code repository:
 
 | Directory tree | Description | License | Terms |
 |---|---|---|---|
@@ -194,8 +261,11 @@ The following table shows which terms apply to which parts of this source code r
 | `./.yarn/sdks` | SDK files for `yarn` | BSD-2-Clause | [License](./.yarn/sdks/LICENSE) |
 | `./extension` | The source code for this VS Code extension | Apache-2.0 | [License](./extension/LICENSE.txt)<br>with [License header](./extension/README.md#license) |
 
-In each of the directories the table mentions, you will find one license file, named `LICENSE` or `LICENSE.txt`.  
-Each license file applies to the directory that contains it, including all subdirectories, but excluding any subdirectory tree whose root has a license file on its own.
+In each of the directories the table mentions, you will find one
+license file, named `LICENSE` or `LICENSE.txt`.  
+Each license file applies to the directory that contains it,
+including all subdirectories, but excluding any subdirectory tree
+whose root has a license file on its own.
 
 ## License header
 
