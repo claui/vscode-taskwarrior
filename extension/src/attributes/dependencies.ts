@@ -1,41 +1,38 @@
 import { CodeLens, CodeLensProvider, Range, TextDocument } from "vscode";
 
-const pattern = /^(\s{2}Dependencies:\s*)(.*)/;
+const pattern = /^(?<keySection>\s{2}Dependencies:\s*)(?<value>.*)/;
 
-async function provideCodeLenses(
+// matchResult?.groups is guaranteed non-null in this method
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+function provideCodeLenses(
   document: TextDocument,
-  descriptionsByIdProvider: DescriptionsByIdProvider
+  descriptionsByIdProvider: DescriptionsByIdProvider,
 ) {
   const codeLenses: CodeLens[] = [];
 
-  for (let i = 0; i < document.lineCount; i++) {
-    const textLine = document.lineAt(i);
-    const matchingGroups = pattern.exec(textLine.text);
-    if (!matchingGroups || matchingGroups.length != 3) {
+  for (let i: number = 0; i < document.lineCount; i++) {
+    const matchResult: RegExpExecArray | null =
+      pattern.exec(document.lineAt(i).text);
+    if (!matchResult) {
       continue;
     }
 
     const range = new Range(
       i,
-      matchingGroups[1].length,
+      matchResult.groups!.keySection.length,
       i,
-      matchingGroups[0].length
+      matchResult[0].length,
     );
-    const taskFilter = matchingGroups[2];
-    if (!taskFilter) {
-      continue;
-    }
+    const descriptionsById: Map<string, string> =
+      descriptionsByIdProvider.map(matchResult.groups!.value);
 
-    for (const [id, description] of await descriptionsByIdProvider.map(
-      taskFilter
-    )) {
+    for (const [id, description] of descriptionsById) {
       codeLenses.push(
         new CodeLens(range, {
           title: `${id}: ${description}`,
           // This is an informational code lens, which has no actionable command
           command: "",
-        })
-      );
+        }));
     }
   }
 
@@ -43,11 +40,11 @@ async function provideCodeLenses(
 }
 
 export interface DescriptionsByIdProvider {
-  map(taskFilter: string): Promise<Map<string, string>>;
+  map(taskFilter: string): Map<string, string>;
 }
 
 export function getDependenciesCodeLensProvider(
-  descriptionsByIdProvider: DescriptionsByIdProvider
+  descriptionsByIdProvider: DescriptionsByIdProvider,
 ): CodeLensProvider {
   return {
     provideCodeLenses: (document) =>
