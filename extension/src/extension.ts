@@ -1,15 +1,10 @@
 import {
-  ExtensionContext,
-  LanguageStatusItem,
   commands,
-  languages,
-  window,
-  workspace,
   DocumentSelector,
+  languages,
+  LanguageStatusItem,
+  workspace,
 } from "vscode";
-
-import CliFailedError from "./errors/cli-failed";
-import Logger from "./logger";
 
 import {
   getDependenciesCodeLensProvider,
@@ -17,45 +12,31 @@ import {
 } from "./attributes";
 
 import { getTaskCli } from "./cli-adapter";
+import CliFailedError from "./errors/cli-failed";
+import log from "./log";
+
 import {
   getDescriptionsByIdProvider,
   getTaskwarriorVersion,
   TaskCli,
 } from "./task-cli";
-import { getCurrentTimestamp } from "./time";
 
-const outputChannel = window.createOutputChannel("Taskwarrior");
+import { getCurrentTimestamp } from "./time";
 
 const languageSelector: DocumentSelector = { language: "taskwarrior" };
 
-const log: Logger = {
-  debug: function (...args) {
-    this.log("DEBUG", ...args);
-  },
-  error: function (...args) {
-    this.log("ERROR", ...args);
-  },
-  info: function (...args) {
-    this.log("INFO", ...args);
-  },
-  log: function (level: string, ...args: any[]) {
-    const timestamp = getCurrentTimestamp();
-    outputChannel.appendLine(`${timestamp} [${level}] ${args.join(" ")}`);
-  },
-};
-
 const statusItem: LanguageStatusItem = languages.createLanguageStatusItem(
   "taskwarrior.status.item.version",
-  languageSelector
+  languageSelector,
 );
 
-const refreshStatus = async (taskCli: TaskCli) => {
+function refreshStatus(taskCli: TaskCli) {
   try {
     statusItem.detail = "Querying Taskwarrior version";
     log.info(statusItem.detail);
     statusItem.busy = true;
 
-    const versionNumber = await getTaskwarriorVersion(taskCli);
+    const versionNumber: string = getTaskwarriorVersion(taskCli);
     statusItem.text = `Taskwarrior v${versionNumber}`;
     log.info(statusItem.text);
     statusItem.detail = `Last updated: ${getCurrentTimestamp()}`;
@@ -63,27 +44,26 @@ const refreshStatus = async (taskCli: TaskCli) => {
     statusItem.text = "$(error) Taskwarrior";
     log.error(error?.message ?? error);
     if (error instanceof CliFailedError && "cause" in error) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       log.error(`> ${error.cause}`);
     }
   } finally {
     statusItem.busy = false;
   }
-};
+}
 
-export function activate(context: ExtensionContext) {
+export function activate() {
   commands.registerCommand("taskwarrior.action.refresh", () => {
-    getTaskCli(context).then(refreshStatus);
+    refreshStatus(getTaskCli());
   });
-  commands.registerCommand("taskwarrior.action.showLog", () => {
-    outputChannel.show();
-  });
+  commands.registerCommand("taskwarrior.action.showLog", log.show, log);
   languages.registerInlayHintsProvider(
     languageSelector,
-    getInlayHintsProvider()
+    getInlayHintsProvider(),
   );
   workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration("taskwarrior")) {
-      getTaskCli(context).then(refreshStatus);
+      refreshStatus(getTaskCli());
     }
   });
   statusItem.command = {
@@ -91,20 +71,19 @@ export function activate(context: ExtensionContext) {
     title: "Show extension log",
   };
 
-  getTaskCli(context).then((cli) => {
-    refreshStatus(cli);
+  const cli: TaskCli = getTaskCli();
+  refreshStatus(cli);
 
-    languages.registerCodeLensProvider(
-      languageSelector,
-      getDependenciesCodeLensProvider(getDescriptionsByIdProvider(cli))
-    );
-  });
+  languages.registerCodeLensProvider(
+    languageSelector,
+    getDependenciesCodeLensProvider(getDescriptionsByIdProvider(cli)),
+  );
 
   return {
-    getTaskwarriorVersion: async () => {
-      return getTaskwarriorVersion(await getTaskCli(context));
-    },
+    getTaskwarriorVersion: () => getTaskwarriorVersion(getTaskCli()),
   };
 }
 
-export function deactivate() {}
+export function deactivate() {
+  return;
+}

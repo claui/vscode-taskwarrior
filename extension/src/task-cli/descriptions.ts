@@ -5,13 +5,13 @@ import { TaskCli } from "../task-cli";
 const MAX_NUM_DESCRIPTIONS = 256;
 
 export function getDescriptionsByIdProvider(
-  cli: TaskCli
+  cli: TaskCli,
 ): DescriptionsByIdProvider {
   return {
-    async map(taskFilter) {
+    map(taskFilter) {
       let stdout: string | Buffer;
       try {
-        stdout = await cli.run([taskFilter, "_zshids"]);
+        stdout = cli.run([taskFilter, "_zshids"]);
       } catch (error) {
         throw new CliFailedError("Unable to obtain task descriptions", {
           cause: error,
@@ -19,9 +19,9 @@ export function getDescriptionsByIdProvider(
       }
 
       const descriptionsById = new Map<string, string>();
-      const stdoutString =
+      const stdoutContent: string =
         typeof stdout === "string" ? stdout : stdout.toString();
-      for (const line of stdoutString.split(/[\r\n]/g, MAX_NUM_DESCRIPTIONS)) {
+      for (const line of stdoutContent.split(/[\r\n]/g, MAX_NUM_DESCRIPTIONS)) {
         if (!line) {
           continue;
         }

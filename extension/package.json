@@ -3,7 +3,7 @@
   "version": "0.2.3+snapshot",
   "publisher": "claui",
   "engines": {
-    "vscode": "^1.66.0"
+    "vscode": "^1.75.0"
   },
   "license": "See License in README.md",
   "displayName": "Taskwarrior",
@@ -19,7 +19,7 @@
     "syntax"
   ],
   "preview": true,
-  "main": "out/extension.js",
+  "main": "build/extension.js",
   "contributes": {
     "commands": [
       {
@@ -75,11 +75,9 @@
       }
     ]
   },
-  "activationEvents": [
-    "onLanguage:taskwarrior"
-  ],
   "extensionKind": [
     "workspace"
   ],
+  "activationEvents": [],
   "repository": "github:claui/vscode-taskwarrior"
 }

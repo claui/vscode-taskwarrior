@@ -49,7 +49,8 @@ Publishing the extension has several steps:
 1. Merge the contributions.
 2. Choose a target version number.
 3. Publish to the Marketplace. (This modifies `extension/package.json`.)
-4. Create a Git commit, Git tag, GitHub prerelease and GitHub PR.
+4. Publish to the Open VSX Registry.
+5. Create a Git commit, Git tag, GitHub prerelease and GitHub PR.
 
 ### Merging the contributions
 
@@ -72,12 +73,39 @@ After deciding on a target version, run:
 
 - `git checkout main`
 - `yarn login`
-- `yarn publish [--pre-release] [version]`
+- `yarn publish-vsce [--pre-release] [version]`
 
-The `yarn publish` command first updates the version number in
+The `yarn publish-vsce` command first updates the version number in
 [extension/package.json](./extension/package.json) to the given
 version. Then it packages and publishes the extension to the VS Code
 Extension Marketplace.
+
+### Publishing to the Open VSX Registry
+
+Follow these steps to publish the extension to the Open VSX Registry:
+
+1. Set the `OVSX_PAT` environment variable to your personal access
+   token.
+
+   For example, if you’re on Bash and you have your token in
+   1Password, you could run the following command line:
+
+   ```bash
+   read -r OVSX_PAT < <(
+     op item get 'Open VSX Registry' --fields password
+   ) && export OVSX_PAT
+   ```
+
+2. Make sure you have published the extension to the VS Code
+   Extension Marketplace. This ensures that the version number has
+   been updated and that a `.vsix` file has been generated.
+
+3. Run the `yarn ovsx publish` command with the correct
+   `extension/[…].vsix` file as the sole argument. Example in Bash:
+
+   ```bash
+   yarn ovsx publish "extension/taskwarrior-$(jq -r .version extension/package.json).vsix"
+   ```
 
 ### Committing, tagging and creating a GitHub prerelease and PR
 
@@ -85,7 +113,7 @@ With the extension now published on the Marketplace, commit the
 change, create a tag, push, cut a GitHub (pre-)release, and create a
 pull request against `main`:
 
-```
+```bash
 (
   set -eux
   git checkout -b publish
@@ -137,8 +165,9 @@ The built-in `yarn up` command can be a bit cumbersome to use if you
 want to upgrade all dependencies in one go.
 
 Running the `yarn upgrade-packages` script will upgrade all relevant
-dependencies. That includes the `@types` and `@yarnpkg` scopes but
-excludes Yarn itself (see the `yarn upgrade-yarn-itself` section).
+dependencies. That includes the `@types`, `@typescript-eslint`, and
+`@yarnpkg` scopes but excludes Yarn itself (see the
+`yarn upgrade-yarn-itself` section).
 
 Also excluded is the `@types/vscode` package. For details, see
 section _Upgrading the VS Code API_.
@@ -178,6 +207,45 @@ To bump the minimum supported VS Code version, follow these steps:
    Preserve the `^` prefix as you change the value.
 
 4. Run `yarn clean-install`.
+
+## Patching dependencies
+
+Sometimes you may want to tweak a dependency. This section explains how to do that using `yarn patch`.
+
+### Start editing
+
+To start editing a dependency, run `yarn patch <dependency>`.
+
+For example, to start editing the `vsce` executable, run:
+
+```shell
+yarn patch @vscode/vsce@npm:2.17.0
+```
+
+Since this project is already patching this dependency, you may want to apply the existing patch to the temporary working directory:
+
+```shell
+patch < path/to/this/project/.yarn/patches/@vscode-vsce-npm-2.17.0-c171711221.patch
+```
+
+### Finish editing
+
+To commit the patch, run `yarn repatch -- <workdir>`.
+
+For example, if the temporary working directory is `/tmp/xfs-36e26fe6/user`, run:
+
+```shell
+yarn repatch -- /tmp/xfs-36e26fe6/user
+```
+
+Note: `yarn repatch` is a custom script. It serves to work around two issues in `yarn patch-commit`:
+
+- Using bare `yarn patch-commit` would create a nested patch while amending the patch is what I actually want.
+
+- It may also use an incorrect key in the resolution entry it writes to `package.json`.  
+  The key should match the dependency’s semver expression, not the resolved version.
+  Using the latter as a key causes the resolution to never apply.  
+  Example for a correct key: `"@vscode/vsce@^2.17.0"`
 
 ## Handling vulnerable dependencies
 

@@ -2,7 +2,9 @@
   "compilerOptions": {
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "outDir": "out",
+    "noImplicitAny": true,
+    "outDir": "work/tsc-out",
+    "strictNullChecks": true,
     "target": "ES2022"
   },
   "include": [

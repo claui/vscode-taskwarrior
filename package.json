@@ -2,25 +2,39 @@
   "name": "vscode-taskwarrior",
   "license": "SEE LICENSE IN README.md",
   "devDependencies": {
-    "@types/node": "^18.7.13",
-    "@types/vscode": "=1.69",
+    "@types/node": "^18.14.1",
+    "@types/vscode": "=1.75",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "@vscode/vsce": "^2.17.0",
     "@yarnpkg/sdks": "^2.6.3",
-    "eslint": "^8.23.0",
-    "typescript": "^4.8.2",
-    "vsce": "^2.10.2"
+    "del-cli": "^5.0.0",
+    "esbuild": "^0.17.10",
+    "eslint": "^8.34.0",
+    "ovsx": "^0.8.0",
+    "semver": "^7.3.8",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
   },
-  "packageManager": "yarn@3.2.3",
   "scripts": {
+    "ci-package": "mkdir -p extension/dist && yarn run -B vsce package --no-dependencies --yarn --cwd extension --githubBranch main/extension --out extension/dist",
+    "clean": "yarn run -B del extension/build extension/dist extension/work",
     "clean-install": "yarn install && git checkout -- .vscode/settings.json '.yarn/*/LICENSE'",
-    "compile": "tsc -p extension/",
-    "login": "vsce login claui",
-    "package": "tsc -p extension/ && cd extension && vsce package --no-dependencies --yarn --githubBranch main/extension",
+    "compile": "tsc -p extension/ && yarn run esbuild --bundle --external:vscode --outdir=./extension/build/ --platform=node ./extension/work/tsc-out/extension.js",
+    "lint": "yarn run -B eslint --max-warnings 0 extension/src",
+    "login": "yarn run -B vsce login claui",
+    "package": "yarn clean && yarn compile && yarn ci-package",
     "postinstall": "yarn sdks vscode",
-    "publish": "cd extension && vsce publish --no-dependencies --yarn --githubBranch main/extension",
+    "publish-vsce": "yarn run -B vsce publish --no-dependencies --yarn --cwd extension --githubBranch main/extension",
+    "repatch": "git add -- package.json && yarn patch-commit -s \"$1\" && git checkout -- package.json && yarn clean-install",
     "upgrade-all": "printf >&2 '%s\\n\\t%s\\n' 'Run the following command line manually:' 'yarn set version stable && yarn install && yarn upgrade-packages' && false",
     "upgrade-lockfile": "yarn up -R '**' && yarn clean-install",
-    "upgrade-packages": "yarn up '**' '@types/vscode@=1.69' && yarn up -R '**' && yarn clean-install",
+    "upgrade-packages": "yarn up '**' '@types/vscode@=1.75' && yarn up -R '**' && yarn clean-install",
     "upgrade-yarn-itself": "printf >&2 '%s\\n\\t%s\\n' 'Run the following command line manually:' 'yarn set version stable && yarn install && yarn clean-install' && false",
-    "vscode:prepublish": "yarn compile"
-  }
+    "vscode:prepublish": "yarn clean && yarn compile"
+  },
+  "resolutions": {
+    "@vscode/vsce@^2.17.0": "patch:@vscode/vsce@npm:2.17.0#./.yarn/patches/@vscode-vsce-npm-2.17.0-c171711221.patch"
+  },
+  "packageManager": "yarn@3.4.1"
 }
